@@ -50,6 +50,7 @@ function set(_a, fail) {
         return __generator(this, function (_b) {
             if (fail)
                 throw error("moc set error");
+            logging_1.log("DB", "SET", key, value);
             database[key] = value;
             return [2 /*return*/];
         });
@@ -65,6 +66,7 @@ function del(_a, fail) {
                 throw error("moc delete error");
             if (!database[key])
                 throw error("delete error");
+            logging_1.log("DB", "DEL", key);
             delete database[key];
             return [2 /*return*/];
         });
@@ -78,8 +80,9 @@ function get(_a, fail) {
         return __generator(this, function (_b) {
             if (fail)
                 throw error("moc get error");
-            if (key || all)
+            if (all)
                 return [2 /*return*/, database[key]];
+            logging_1.log("DB", "GET", key, all);
             return [2 /*return*/, database];
         });
     });

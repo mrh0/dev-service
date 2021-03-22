@@ -40,13 +40,61 @@ var express = require("express");
 var logging_1 = require("../util/logging");
 var cors = require("cors");
 var db_1 = require("../database/db");
+var saga_1 = require("../saga/saga");
+var fetch = require("node-fetch");
 var app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 exports.default = app;
+app.post("/forward", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var saga, _a, _b, e_1;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                logging_1.default("POST", "forward", "begin");
+                saga = new saga_1.default();
+                saga.begin("step1", {}, db_1.default.set(req.body, false).catch(function (e) { return saga.exception("step1", e); }), function () { return __awaiter(void 0, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, db_1.default.del(req.body)];
+                            case 1:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                saga.begin("step2", {}, fetch(process.env.FORWARD, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: "test2", value: "hello" }) }).catch(function (e) { return saga.exception("step2", e); }), function () { return __awaiter(void 0, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, fetch(process.env.FORWARD, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: "test2", value: "hello" }) })];
+                            case 1:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                _c.label = 1;
+            case 1:
+                _c.trys.push([1, 3, , 4]);
+                _b = (_a = console).log;
+                return [4 /*yield*/, saga.all()];
+            case 2:
+                _b.apply(_a, [_c.sent()]);
+                res.json({ accepted: true });
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _c.sent();
+                res.json({ accepted: false, error: e_1 });
+                return [3 /*break*/, 4];
+            case 4:
+                logging_1.default("POST", "forward", "end");
+                return [2 /*return*/];
+        }
+    });
+}); });
 app.post("/commit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var e_1;
+    var e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -60,8 +108,8 @@ app.post("/commit", function (req, res) { return __awaiter(void 0, void 0, void 
                 res.json({ accepted: true });
                 return [3 /*break*/, 4];
             case 3:
-                e_1 = _a.sent();
-                res.json({ accepted: false, error: e_1 });
+                e_2 = _a.sent();
+                res.json({ accepted: false, error: e_2 });
                 return [3 /*break*/, 4];
             case 4:
                 logging_1.default("POST", "commit", "end");
@@ -70,7 +118,7 @@ app.post("/commit", function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); });
 app.delete("/commit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var e_2;
+    var e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -84,8 +132,8 @@ app.delete("/commit", function (req, res) { return __awaiter(void 0, void 0, voi
                 res.json({ accepted: true });
                 return [3 /*break*/, 4];
             case 3:
-                e_2 = _a.sent();
-                res.json({ accepted: false, error: e_2 });
+                e_3 = _a.sent();
+                res.json({ accepted: false, error: e_3 });
                 return [3 /*break*/, 4];
             case 4:
                 logging_1.default("DELETE", "commit", "end");
@@ -94,7 +142,7 @@ app.delete("/commit", function (req, res) { return __awaiter(void 0, void 0, voi
     });
 }); });
 app.get("/commit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _b, e_3;
+    var _a, _b, e_4;
     var _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
@@ -110,8 +158,8 @@ app.get("/commit", function (req, res) { return __awaiter(void 0, void 0, void 0
                 _b.apply(_a, [(_c.data = _d.sent(), _c)]);
                 return [3 /*break*/, 4];
             case 3:
-                e_3 = _d.sent();
-                res.json({ accepted: false, error: e_3 });
+                e_4 = _d.sent();
+                res.json({ accepted: false, error: e_4 });
                 return [3 /*break*/, 4];
             case 4:
                 logging_1.default("GET", "commit", "end");

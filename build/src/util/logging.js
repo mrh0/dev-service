@@ -11,7 +11,7 @@ function log(name) {
     for (var _i = 1; _i < arguments.length; _i++) {
         message[_i - 1] = arguments[_i];
     }
-    console.log.apply(console, __spreadArray(["[", name, "]:"], message));
+    console.log.apply(console, __spreadArray(["[", process.env.NAME, ":", name, "]:"], message));
 }
 exports.log = log;
 function err(name) {
@@ -19,7 +19,7 @@ function err(name) {
     for (var _i = 1; _i < arguments.length; _i++) {
         message[_i - 1] = arguments[_i];
     }
-    console.error.apply(console, __spreadArray(["[", name, "]:"], message));
+    console.error.apply(console, __spreadArray(["[", process.env.NAME, ":", name, "]:"], message));
 }
 exports.err = err;
 exports.default = log;

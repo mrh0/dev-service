@@ -1,11 +1,11 @@
 
 
 export function log(name: string, ...message: any) {
-    console.log("[", name, "]:", ...message);
+    console.log("[", process.env.NAME, ":", name, "]:", ...message);
 }
 
 export function err(name: string, ...message: any) {
-    console.error("[", name, "]:", ...message);
+    console.error("[", process.env.NAME, ":", name, "]:", ...message);
 }
 
 export default log;
