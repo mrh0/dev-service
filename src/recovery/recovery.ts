@@ -22,6 +22,10 @@ export async function pop(name) {
     return JSON.parse(await redis.lpop(name)) as Packet;
 }
 
+export async function getLen(name: string) {
+    return redis.llen(name);
+}
+
 export async function popAndSend(name) {
     let count = await redis.llen(name);
     while(count--) {

@@ -41,6 +41,7 @@ var logging_1 = require("../util/logging");
 var cors = require("cors");
 var db_1 = require("../database/db");
 var saga_1 = require("../saga/saga");
+//import {push, pop} from "../recovery/recovery";
 var fetch = require("node-fetch");
 var app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -167,4 +168,34 @@ app.get("/commit", function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); });
+app.get("/error", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        res.sendStatus(500);
+        return [2 /*return*/];
+    });
+}); });
+/*
+//Recovery
+app.post("/store", async (req, res) => {
+    log("POST", "store", "begin");
+    const {name, packet} = req.body;
+    try {
+        await push(name, packet);
+        res.json({accepted: true} as Response);
+    }
+    catch(e) {
+        res.json({accepted: false, error: e} as Response);
+    }
+    log("POST", "store", "end");
+});
+
+app.post("/recover", async (req, res) => {
+    log("POST", "recover", "begin");
+    const {name, packet} = req.body;
+    res.json({accepted: true} as Response);
+
+    await pop(name);
+    
+    log("POST", "recover", "end");
+});*/ 
 //# sourceMappingURL=routes.js.map

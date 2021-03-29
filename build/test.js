@@ -36,11 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var recovery_1 = require("./src/recovery/recovery");
 function test() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            recovery_1.push({ data: "data", route: "/route/" });
             return [2 /*return*/];
         });
     });

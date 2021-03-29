@@ -62,5 +62,5 @@ function test() {
         });
     });
 }
-test();
+//test();
 //# sourceMappingURL=index.js.map

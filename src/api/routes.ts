@@ -4,7 +4,7 @@ import cors = require("cors");
 import db from "../database/db";
 import {Response} from "../model/types";
 import SagaTransaction from "../saga/saga";
-import {push, pop} from "../recovery/recovery";
+//import {push, pop} from "../recovery/recovery";
 import fetch = require("node-fetch");
 
 const app = express();
@@ -78,8 +78,11 @@ app.get("/commit", async (req, res) => {
     log("GET", "commit", "end");
 });
 
+app.get("/error", async (req, res) => {
+    res.sendStatus(500);
+});
 
-
+/*
 //Recovery
 app.post("/store", async (req, res) => {
     log("POST", "store", "begin");
@@ -102,4 +105,4 @@ app.post("/recover", async (req, res) => {
     await pop(name);
     
     log("POST", "recover", "end");
-});
+});*/
